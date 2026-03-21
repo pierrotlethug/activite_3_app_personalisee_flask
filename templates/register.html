@@ -1,0 +1,54 @@
+@@ -6,24 +6,36 @@
+                
+                + un bouton pour valider le post -->
+{% block content %}
+        <div class="flex items-center justify-center">
+                <form method = "POST" action="">
+                        <h1 class = "font-bold text-2xl mb-4 text-center"> Créer un compte :</h1>
+                        <div class = "mb-4">
+                                <label class = "block text-sm text-gray-700 semi-bold mb-2"> Utilisateur </label>
+                                <input class = "bg-grey-100 w-full p-3 border rounded" name ="utilisateur" placeholder = "Nom d'utilisateur">
+                        </div>
+                        <div  class = "mb-4" >
+                                <label class = "block text-sm text-gray-700 semi-bold mb-2" > Mot de passe </label>
+                                <input class="bg-grey-100 w-full p-3 border rounded" name="password" type="password" placeholder="Mot de passe">
+                        </div>
+                        <div class = "mb-4">
+                                <label class = "block text-sm text-gray-700 semi-bold mb-2" > Vérification mot de passe </label>
+                                <input class="bg-grey-100 w-full p-3 border rounded" name="password" type="password" placeholder="Mot de passe">
+                        </div>
+{% if erreur %}
+<p class="text-lg text-red-700 pb-4 text-xl text-center"> <strong> Erreur : </strong> {{erreur}}</p>
+{% endif %}
+
+<div class="flex items-center justify-center">
+        <form method="POST" action="{{ url_for('register') }}">
+                <h1 class="font-bold text-2xl mb-4 text-center"> Créer un compte :</h1>
+                <div class="mb-4">
+                        <label class="block text-sm text-gray-700 semi-bold mb-2"> Utilisateur </label>
+                        <input class="bg-grey-100 w-full p-3 border rounded" name="utilisateur"
+                                placeholder="Nom d'utilisateur">
+                </div>
+                <div class="mb-4">
+                        <label class="block text-sm text-gray-700 semi-bold mb-2"> Mot de passe </label>
+                        <input class="bg-grey-100 w-full p-3 border rounded" name="mot_de_passe" type="password"
+                                placeholder="Mot de passe">
+                </div>
+                <div class="mb-4">
+                        <label class="block text-sm text-gray-700 semi-bold mb-2"> Vérification mot de passe </label>
+                        <input class="bg-grey-100 w-full p-3 border rounded" name="verif_mot_de_passe" type="password"
+                                placeholder="Mot de passe">
+                </div>
+
+                </form>
+                <div class="flex items-center justify-center">
+                        <button class="bg-amber-400 hover:bg-amber-600 text-white font-bold rounded px-4 py-2"
+                                type="submit"> S'inscrire</button>
+
+        </div>
+                </div>
+
+        </form>
+
+</div>
+{% endblock %}
