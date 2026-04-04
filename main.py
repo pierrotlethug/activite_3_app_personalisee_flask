@@ -1,3 +1,4 @@
+
 # Flask : Classe principale, initialise l'app
 # render_template : Charge et compile les templates Jinja2
 # session : Stockage côté serveur des données utilisateur
@@ -7,10 +8,31 @@
 
 # On importe mongodb, os, bcrypt (chiffrement des mdps)
 import pymongo, os, bcrypt, random
+from dotenv import load_dotenv
+
+
 # On import du framework flask :
 # * la classe Flask
 # * render_template fonction qui permet d'afficher un fichier HTML
 from flask import Flask, render_template, session, request, url_for, redirect
+from pymongo import MongoClient
+import os
+
+
+
+
+
+
+
+load_dotenv()
+print(os.getenv('MONGO_CLUSTER_URI'))
+
+mongo_cluster_uri = os.getenv('MONGO_CLUSTER_URI')
+print({mongo_cluster_uri})
+client = MongoClient(mongo_cluster_uri)
+db = client["db"]
+print(db.list_collection_names())
+
 # On crée une variable qui stocke une instance de la classe Flask
 app = Flask(__name__)
 
@@ -19,7 +41,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 # Connexion database
-mongo = pymongo.MongoClient("mongodb+srv://someoneuserdb:Pierre2811!@cluster0.eqv96ae.mongodb.net/?appName=Cluster0")
+
 
 
 
