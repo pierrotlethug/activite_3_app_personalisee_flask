@@ -15,26 +15,6 @@ from dotenv import load_dotenv
 # * la classe Flask
 # * render_template fonction qui permet d'afficher un fichier HTML
 from flask import Flask, render_template, session, request, url_for, redirect
-from pymongo import MongoClient
-from bson.objectid import ObjectId
-from datetime import datetime
-import os
-
-
-
-
-
-
-
-load_dotenv()
-print(os.getenv('MONGO_CLUSTER_URI'))
-
-mongo_cluster_uri = os.getenv('MONGO_CLUSTER_URI')
-print({mongo_cluster_uri})
-client = MongoClient(mongo_cluster_uri)
-db = client["db"]
-print(db.list_collection_names())
-
 # On crée une variable qui stocke une instance de la classe Flask
 app = Flask(__name__)
 
