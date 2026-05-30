@@ -17,16 +17,11 @@
     <header class="bg-violet-900 p-6 shadow-md border-b-2 border-violet-950">
 
         <!-- Conteneur centré avec largeur max -->
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="max-w-7xl mx-auto flex flex-col items-center gap-4">
 
-            <!-- Logo avec emoji -->
-            <h1 class="text-3xl font-bold text-gray-950">
-                cortexium <span class="text-gray-950">🧠</span>
-            </h1>
-
-            <!-- Menu de navigation -->
-            <nav>
-                <ul class="flex gap-8 text-lg font-medium">
+            <!-- Menu de navigation (ligne du haut) -->
+            <nav class="w-full">
+                <ul class="flex justify-end gap-8 text-lg font-medium">
                     <!-- Lien simple -->
                     <li>
                         <a href="/" class="text-purple-700 hover:text-amber-600 transition-colors duration-200">
@@ -68,17 +63,17 @@
 
                 </ul>
             </nav>
+
+            <!-- Logo avec emoji (centré en dessous) -->
+            <h1 class="text-4xl font-extrabold text-center text-gray-950">
+                cortexium <span class="text-gray-950">🧠</span>
+            </h1>
+
         </div>
     </header>
 
     <!-- Le Main zone centrale du site web -->
-    <main class="py-10">
-      {% block content %}
-    <!-- ========== CONTENU PRINCIPAL ========== -->
-    <!-- flex-grow fait que le main prend tout l'espace dispo (footer toujours en bas) -->
     <main class="flex-grow py-10 px-4">
-
-      {% endblock %}
         <!-- Conteneur centré pour le contenu -->
         <div class="max-w-7xl mx-auto">
             {% block content %}
