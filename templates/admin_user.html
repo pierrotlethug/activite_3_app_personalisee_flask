@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-10">
+    <div class="space-y-6">
+        <div class="bg-white border border-purple-200 rounded-3xl p-6 shadow-sm">
+            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                    <p class="text-sm uppercase tracking-[0.3em] text-amber-600 font-semibold">Statut utilisateur</p>
+                    <h1 class="mt-3 text-3xl font-bold text-violet-950">{{ user.nom }}</h1>
+                    <p class="mt-2 text-sm text-gray-600">Rôle : <strong>{{ user.role }}</strong></p>
+                </div>
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <div class="rounded-3xl bg-violet-50 px-5 py-4 text-center">
+                        <p class="text-sm text-gray-500">Signalements reçus</p>
+                        <p class="mt-2 text-3xl font-semibold text-violet-950">{{ reports_count }}</p>
+                    </div>
+                    <form method="POST" action="{{ url_for('delete_user', user_id=user.id) }}" onsubmit="return confirm('Supprimer ce compte ? Cette action est irréversible.')">
+                        <button type="submit" class="rounded-3xl bg-red-600 px-5 py-3 text-sm font-semibold text-white hover:bg-red-700 transition">Supprimer le compte</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-2">
+            <div class="bg-white border border-purple-200 rounded-3xl p-6 shadow-sm">
+                <h2 class="text-xl font-semibold text-violet-950 mb-4">Articles de {{ user.nom }}</h2>
+                {% if annonces %}
+                <div class="space-y-4">
+                    {% for annonce in annonces %}
+                    <div class="rounded-3xl border border-purple-100 bg-violet-50 p-4">
+                        <a href="{{ url_for('voir_annonce', annonce_id=annonce._id) }}" class="font-semibold text-violet-950 hover:text-amber-600">{{ annonce.get('titre', 'Article sans titre') }}</a>
+                        <p class="mt-2 text-sm text-gray-600">{{ annonce.get('contenu', '')[:120] }}{% if annonce.get('contenu', '')|length > 120 %}...{% endif %}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-sm text-gray-600">Aucun article publié par cet utilisateur.</p>
+                {% endif %}
+            </div>
+
+            <div class="bg-white border border-purple-200 rounded-3xl p-6 shadow-sm">
+                <h2 class="text-xl font-semibold text-violet-950 mb-4">Commentaires de {{ user.nom }}</h2>
+                {% if comments %}
+                <div class="space-y-4">
+                    {% for comment in comments %}
+                    <div class="rounded-3xl border border-purple-100 bg-violet-50 p-4">
+                        <p class="text-sm text-gray-600">{{ comment.get('contenu', comment.get('message', 'Commentaire sans contenu'))[:140] }}{% if comment.get('contenu', comment.get('message', ''))|length > 140 %}...{% endif %}</p>
+                        {% if comment.get('date') %}
+                        <p class="mt-2 text-xs text-gray-500">{{ comment.get('date') }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-sm text-gray-600">Aucun commentaire trouvé pour cet utilisateur.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div>
+            <a href="{{ url_for('admin_dashboard') }}" class="inline-block rounded-3xl bg-purple-900 px-5 py-3 text-sm font-semibold text-white hover:bg-violet-800 transition">Retour à l'administration</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

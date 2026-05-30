@@ -1,0 +1,285 @@
+    {% extends 'base.html' %}
+
+{% block content %}
+<style>
+main { padding: 0 !important; }
+.annonce-page {
+    width: 100%;
+    min-height: calc(100vh - 12rem);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background: transparent;
+    padding: 2rem;
+}
+.post-card {
+    width: 100%;
+    max-width: 900px;
+    background: rgba(255,255,255,0.98);
+    padding: 2rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.1);
+    border: 2px solid #000;
+}
+.post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.post-meta div {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.flag-button {
+    border: 1px solid #9ca3af;
+    background: transparent;
+    color: #6b7280;
+    padding: 0.5rem 0.75rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.flag-button:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+}
+.comment-section {
+    margin-top: 2.5rem;
+}
+.comment-form {
+    background: #f8fafc;
+    border: 1px solid #d1d5db;
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+.comment-form textarea {
+    width: 100%;
+    min-height: 140px;
+    border: 1px solid #d1d5db;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    resize: vertical;
+    background: white;
+}
+.comment-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+}
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+.comment-author {
+    font-weight: 700;
+    color: #1f2937;
+}
+.comment-tag {
+    background: #eef2ff;
+    color: #4338ca;
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+}
+.comment-body {
+    margin-top: 0.75rem;
+    color: #334155;
+    line-height: 1.7;
+}
+.reply-button {
+    font-size: 0.85rem;
+    color: #4f46e5;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+.reply-button:hover {
+    text-decoration: underline;
+}
+.reply-note {
+    margin-top: 0.75rem;
+    padding: 0.9rem 1rem;
+    background: #eef2ff;
+    border-radius: 0.9rem;
+    color: #334155;
+    font-size: 0.95rem;
+    display: none;
+}
+.comment-children {
+    margin-top: 1rem;
+    border-left: 2px solid #e5e7eb;
+    padding-left: 1rem;
+    display: grid;
+    gap: 1rem;
+}
+.reply-info {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: #475569;
+}
+.reply-hint {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: #475569;
+}
+</style>
+
+<div class="annonce-page">
+    <div class="post-card">
+        {% if erreur %}
+            <p class="text-center text-red-700 font-bold mb-6">{{ erreur }}</p>
+        {% else %}
+            <div>
+                <h1 class="text-4xl font-extrabold text-violet-950">{{ annonce["titre"] }}</h1>
+                <p class="mt-3 text-gray-600 text-sm">Publié par <strong>{{ annonce["auteur"] }}</strong></p>
+            </div>
+
+            <div class="post-meta">
+                <div>
+                    <span class="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-800">Article</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    {% if utilisateur %}
+                    <form method="POST" action="{{ url_for('report_item') }}">
+                        <input type="hidden" name="item_type" value="post">
+                        <input type="hidden" name="item_id" value="{{ annonce['_id']|string }}">
+                        <input type="hidden" name="annonce_id" value="{{ annonce['_id']|string }}">
+                        <input type="hidden" name="item_title" value="{{ annonce['titre'] }}">
+                        <input type="hidden" name="item_author" value="{{ annonce['auteur'] }}">
+                        <button type="submit" class="flag-button">🚩 Signaler</button>
+                    </form>
+                    {% else %}
+                    <a href="{{ url_for('login') }}" class="flag-button">🔒 Connectez-vous pour signaler</a>
+                    {% endif %}
+                    {% if utilisateur and utilisateur|lower|trim == annonce['auteur']|lower|trim %}
+                    <form id="delete-annonce-form" method="POST" action="{{ url_for('supprimer_annonce', annonce_id=annonce['_id']|string) }}" style="margin:0;">
+                        <button type="button" id="delete-annonce-button" class="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 transition">Supprimer</button>
+                    </form>
+                    {% endif %}
+                    <a href="{{ url_for('index') }}" class="rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-600 transition">Retour</a>
+                </div>
+            </div>
+
+            <div class="mt-8 rounded-3xl border border-amber-300 bg-amber-50 p-6">
+                <p class="text-gray-700 leading-relaxed">{{ annonce["contenu"] }}</p>
+            </div>
+
+            <div class="comment-section">
+                <div class="comment-form">
+                    <h2 class="text-xl font-semibold text-violet-950">Poster un commentaire</h2>
+                    {% if utilisateur %}
+                    <form method="POST" action="{{ url_for('add_comment', annonce_id=annonce['_id']|string) }}">
+                        <input type="hidden" name="parent_id" id="parent_id" value="">
+                        <textarea name="contenu" placeholder="Écrire un commentaire..." required></textarea>
+                        <div class="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                            <p id="reply-target" class="reply-hint">Commenter cet article comme <strong>{{ utilisateur }}</strong>.</p>
+                            <button type="submit" class="rounded-full bg-purple-900 px-6 py-3 text-sm font-semibold text-white hover:bg-violet-800 transition">Publier</button>
+                        </div>
+                    </form>
+                    {% else %}
+                    <p class="text-gray-600">Vous devez être connecté pour poster un commentaire.</p>
+                    {% endif %}
+                </div>
+
+                <div id="comments" class="mt-10">
+                    <h2 class="text-2xl font-semibold text-violet-950 mb-6">Commentaires</h2>
+                    {% if comments_tree %}
+                        <div class="space-y-4">
+                            {% macro render_comment(comment) %}
+                                <div class="comment-card" style="margin-left: {{ comment.depth * 1.5 }}rem;">
+                                    <div class="comment-header">
+                                        <div>
+                                            <span class="comment-author">{{ comment.auteur }}</span>
+                                            <span class="comment-tag">
+                                                {% if comment.depth == 0 %}Normal{% elif comment.depth == 1 %}Réponse{% else %}Réponse de réponse{% endif %}
+                                            </span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            {% if utilisateur %}
+                                            <form method="POST" action="{{ url_for('report_item') }}">
+                                                <input type="hidden" name="item_type" value="comment">
+                                                <input type="hidden" name="item_id" value="{{ comment.id }}">
+                                                <input type="hidden" name="item_title" value="{{ comment.contenu[:80] }}">
+                                                <input type="hidden" name="item_author" value="{{ comment.auteur }}">
+                                                <input type="hidden" name="annonce_id" value="{{ annonce['_id']|string }}">
+                                                <button type="submit" class="flag-button">🚩</button>
+                                            </form>
+                                            <button type="button" class="reply-button" data-comment-id="{{ comment.id }}" data-comment-author="{{ comment.auteur }}">Répondre</button>
+                                            {% if utilisateur == comment.auteur or role == 'admin' %}
+                                            <form method="POST" action="{{ url_for('supprimer_commentaire', annonce_id=annonce['_id']|string, comment_id=comment.id) }}" onsubmit="return confirm('Supprimer ce commentaire et ses réponses ?');" style="margin:0;">
+                                                <button type="submit" class="rounded-full bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700 transition">Supprimer</button>
+                                            </form>
+                                            {% endif %}
+                                            {% else %}
+                                            <a href="{{ url_for('login') }}" class="inline-flex items-center rounded-full bg-slate-100 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-200 transition">Connectez-vous pour réagir</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <p class="comment-body">{{ comment.contenu }}</p>
+                                    <p class="reply-note" data-reply-target="{{ comment.id }}">Répondre à <strong>{{ comment.auteur }}</strong> :</p>
+                                    {% if comment.replies %}
+                                        <div class="comment-children">
+                                            {% for reply in comment.replies %}
+                                                {{ render_comment(reply) }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endmacro %}
+
+                            {% for comment in comments_tree %}
+                                {{ render_comment(comment) }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-gray-600">Aucun commentaire pour le moment. Soyez le premier à réagir.</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    const deleteButton = document.getElementById('delete-annonce-button');
+    const deleteForm = document.getElementById('delete-annonce-form');
+    const replyButtons = document.querySelectorAll('.reply-button');
+    const parentInput = document.getElementById('parent_id');
+    const replyTarget = document.getElementById('reply-target');
+    const replyNotes = document.querySelectorAll('.reply-note');
+
+    if (deleteButton && deleteForm) {
+        deleteButton.addEventListener('click', () => {
+            if (window.confirm('Voulez-vous vraiment supprimer cet article ? Cette action est irréversible.')) {
+                deleteForm.submit();
+            }
+        });
+    }
+
+    if (parentInput && replyTarget) {
+        replyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const commentId = button.dataset.commentId;
+                const author = button.dataset.commentAuthor;
+                parentInput.value = commentId;
+                replyTarget.innerHTML = `Répondre à <strong>${author}</strong> :`;
+                replyNotes.forEach(note => {
+                    note.style.display = note.dataset.replyTarget === commentId ? 'block' : 'none';
+                });
+                const commentCard = button.closest('.comment-card');
+                if (commentCard) {
+                    commentCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        });
+    }
+</script>
+{% endblock %}

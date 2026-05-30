@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+main { padding: 0 !important; }
+.publish-page {
+    width: 100%;
+    min-height: calc(100vh - 12rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    padding: 2rem;
+}
+</style>
+<div class="publish-page">
+    <form method="POST" action="{{ url_for('publier') }}" style="width:100%;max-width:420px;background:rgba(255,255,255,0.98);padding:2.5rem;border-radius:1.25rem;box-shadow:0 8px 32px 0 rgba(31,38,135,0.1);border:2px solid #000;display:flex;flex-direction:column;align-items:center;">
+        <h1 style="font-weight:bold;font-size:2.25rem;margin-bottom:0.5rem;text-align:center;color:#5b21b6;letter-spacing:0.05em;width:100%;">Publier un article</h1>
+        <p style="text-align:center;color:#6b7280;margin-bottom:2rem;width:100%;">Remplissez les informations et publiez votre article.</p>
+        <div style="margin-bottom:1.5rem;width:100%;">
+            <label for="titre" style="display:block;font-size:0.95rem;color:#374151;font-weight:600;margin-bottom:0.5rem;">Titre de l'article</label>
+            <input name="titre" id="titre" placeholder="Titre de l'article" required style="background:#f3f4f6;width:100%;padding:0.75rem;border:1px solid #fcd34d;border-radius:0.5rem;outline:none;">
+        </div>
+        <div style="margin-bottom:1.5rem;width:100%;">
+            <label for="contenu" style="display:block;font-size:0.95rem;color:#374151;font-weight:600;margin-bottom:0.5rem;">Description de l'article</label>
+            <textarea name="contenu" id="contenu" placeholder="Décrivez votre article" required rows="5" style="background:#f3f4f6;width:100%;padding:0.75rem;border:1px solid #fcd34d;border-radius:0.5rem;outline:none;resize:vertical;"></textarea>
+        </div>
+        <div style="margin-bottom:1.5rem;width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+            <span style="color:#374151;font-size:0.95rem;font-weight:600;">Auteur :</span>
+            <span style="color:#5b21b6;font-size:0.95rem;font-weight:700;">{{ utilisateur }}</span>
+        </div>
+        {% if erreur %}
+            <div style="margin-bottom:1rem;width:100%;display:flex;justify-content:center;">
+                <p style="font-size:1.1rem;color:#b91c1c;text-align:center;font-weight:600;background:#fee2e2;border:1px solid #fca5a5;border-radius:0.5rem;padding:0.5rem 1rem;width:100%;"><strong>Erreur :</strong> {{ erreur }}</p>
+            </div>
+        {% endif %}
+        <div style="display:flex;align-items:center;justify-content:center;margin-top:1.5rem;width:100%;">
+            <button type="submit" style="background:#fbbf24;color:white;font-weight:bold;border-radius:0.75rem;padding:0.75rem 0;width:100%;font-size:1.15rem;box-shadow:0 2px 8px 0 rgba(251,191,36,0.15);border:none;transition:background 0.2s;cursor:pointer;">Publier</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

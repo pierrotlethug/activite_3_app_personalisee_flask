@@ -1,15 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title> Cortexium </title>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script><title>Cortexium</title>
 </head>
-
-
 
 <body class="min-h-screen flex flex-col bg-violet-100">
 
@@ -17,58 +10,42 @@
     <header class="bg-violet-900 p-6 shadow-md border-b-2 border-violet-950">
 
         <!-- Conteneur centré avec largeur max -->
-        <div class="max-w-7xl mx-auto flex flex-col items-center gap-4">
+        <div class="max-w-7xl mx-auto relative flex items-center gap-4">
 
-            <!-- Menu de navigation (ligne du haut) -->
-            <nav class="w-full">
-                <ul class="flex justify-end gap-8 text-lg font-medium">
-                    <!-- Lien simple -->
-                    <li>
-                        <a href="/" class="text-purple-700 hover:text-amber-600 transition-colors duration-200">
-                            Accueil
-                        </a>
-                    </li>
-                    <!-- {% if session["utilisateur"] %} -->
-                    <!-- Lien simple -->
-                    <li>
-                        <a href="/publier_annonce" class="text-purple-700 hover:text-amber-600 transition-colors duration-200">
-                            Publier
-                        </a>
-                    </li>
-                    
-                    <!-- Bouton mis en avant pour inciter à l'inscription -->
-                    <li>
-                        <a href="/logout"
-                            class="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors duration-200 shadow-sm">
-                            Se déconnecter
-                        </a>
-                    </li>
-                    <!-- {% else %} -->
+            <div class="flex items-center gap-8">
+                {% if role == 'admin' %}
+                <a href="{{ url_for('admin_dashboard') }}" class="text-purple-700 hover:text-amber-600 transition-colors duration-200">
+                    Administration
+                </a>
+                {% endif %}
+            </div>
 
-                    <!-- Lien simple -->
-                    <li>
-                        <a href="/login" class="text-purple-700 hover:text-amber-600 transition-colors duration-200">
-                            Se connecter
-                        </a>
-                    </li>
-
-                    <!-- Bouton mis en avant pour inciter à l'inscription -->
-                    <li>
-                        <a href="/register"
-                            class="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors duration-200 shadow-sm">
-                            S'inscrire
-                        </a>
-                    </li>
-                    <!-- {% endif %} -->
-
-                </ul>
-            </nav>
-
-            <!-- Logo avec emoji (centré en dessous) -->
-            <h1 class="text-4xl font-extrabold text-center text-gray-950">
+            <h1 class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl font-extrabold text-center text-gray-950">
                 cortexium <span class="text-gray-950">🧠</span>
             </h1>
 
+            <div class="ml-auto flex items-center gap-4">
+                <a href="{{ url_for('index') }}" class="text-purple-700 hover:text-amber-600 transition-colors duration-200">
+                    Accueil
+                </a>
+                {% if utilisateur %}
+                <a href="{{ url_for('publier') }}" class="text-purple-700 hover:text-amber-600 transition-colors duration-200">
+                    Publier
+                </a>
+                <a href="{{ url_for('logout') }}"
+                    class="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors duration-200 shadow-sm">
+                    Se déconnecter
+                </a>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="text-purple-700 hover:text-amber-600 transition-colors duration-200">
+                    Se connecter
+                </a>
+                <a href="{{ url_for('register') }}"
+                    class="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors duration-200 shadow-sm">
+                    S'inscrire
+                </a>
+                {% endif %}
+            </div>
         </div>
     </header>
 
@@ -85,27 +62,17 @@
     <!-- ========== FOOTER ========== -->
     <!-- mt-auto pousse le footer en bas de page -->
 
-    <footer class="absolute bottom-0 w-full bg-purple-200 p-10 flex justify-center border border-purple-400">
-        <p>Copyright : cortexium © </p>
-        <p>Contact : cortexium@gmail.com </p>
-        <!-- Conteneur centré, responsive (colonne sur mobile, ligne sur desktop) -->
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-center items-center gap-4 text-purple-900">
-
-   
-       
-            <!-- Copyright -->
+    <footer class="mt-auto w-full bg-purple-200 py-4 px-6 border border-purple-400">
+        <div class="max-w-7xl mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-4 text-purple-900">
             <p class="font-medium">© 2026 cortexium - Tous droits réservés</p>
-
-            <!-- Séparateur visible uniquement sur desktop -->
-            <span class="hidden md:inline text-purple-400">|</span>
-
-            <!-- Email cliquable avec icône -->
-            <p class="flex items-center gap-2">
-                <span class="text-lg">📧</span>
-                <a href="mailto:contact@cortexium.com" class="hover:text-amber-600 transition-colors">
-                    contact@cortexium.com
-                </a>
-            </p>
+            <div class="flex flex-col md:flex-row items-center gap-4 text-sm">
+                <p>Copyright : cortexium ©</p>
+                <p>Contact : cortexium@gmail.com</p>
+                <p class="flex items-center gap-2">
+                    <span class="text-lg">📧</span>
+                    <a href="mailto:contact@cortexium.com" class="hover:text-amber-600 transition-colors">contact@cortexium.com</a>
+                </p>
+            </div>
         </div>
     </footer>
 
