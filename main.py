@@ -15,6 +15,26 @@ from dotenv import load_dotenv
 # * la classe Flask
 # * render_template fonction qui permet d'afficher un fichier HTML
 from flask import Flask, render_template, session, request, url_for, redirect
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+from datetime import datetime
+import os
+
+
+
+
+
+
+
+load_dotenv()
+print(os.getenv('MONGO_CLUSTER_URI'))
+
+mongo_cluster_uri = os.getenv('MONGO_CLUSTER_URI')
+print({mongo_cluster_uri})
+client = MongoClient(mongo_cluster_uri)
+db = client["db"]
+print(db.list_collection_names())
+
 # On crée une variable qui stocke une instance de la classe Flask
 app = Flask(__name__)
 
@@ -81,7 +101,8 @@ def delete_comment_tree(comment_id):
 
 # Connexion database
 
-
+client = MongoClient({mongo_cluster_uri})
+db = client["db"]
 
 
 # On crée un route de notre page d'accueil
@@ -113,7 +134,7 @@ def register():
                 db_users.insert_one({
                     "nom": request.form['utilisateur'],
                     "mdp": mot_de_passe_chiffre,
-                    "role": "standard"
+                    "role": "standard"})
 
                 # On ajoute le cookie utilisateur de connexion
                 session["utilisateur"] = request.form['utilisateur']
@@ -515,6 +536,10 @@ def admin_ignore_report():
         db.reports.delete_many({"type": item_type, "item_id": item_id})
 
     return redirect(url_for('admin_dashboard'))
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html', utilisateur=session.get('utilisateur')), 404
 
 # On exécute de notre application flask à laquelle on accède via le port 4200
 if __name__ == "__main__":

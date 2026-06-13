@@ -10,33 +10,169 @@ main { padding: 0 !important; }
     align-items: center;
     justify-content: center;
     background: transparent;
-    padding: 2rem;
+    padding: 1rem;
+}
+@media (min-width: 640px) {
+    .publish-page { padding: 2rem; }
+}
+.form-container {
+    width: 100%;
+    max-width: 420px;
+    background: var(--surface-bg);
+    color: var(--text-main);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--panel-border);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px);
+}
+@media (min-width: 640px) {
+    .form-container { padding: 2.5rem; border-radius: 1.25rem; }
+}
+.form-title {
+    font-weight: bold;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    color: #5b21b6;
+    letter-spacing: 0.05em;
+    width: 100%;
+}
+@media (min-width: 640px) {
+    .form-title { font-size: 2.25rem; }
+}
+.form-subtitle {
+    text-align: center;
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    font-size: 0.95rem;
+}
+@media (min-width: 640px) {
+    .form-subtitle { margin-bottom: 2rem; }
+}
+.form-group {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+@media (min-width: 640px) {
+    .form-group { margin-bottom: 1.5rem; }
+}
+.form-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+}
+@media (min-width: 640px) {
+    .form-label { font-size: 0.95rem; margin-bottom: 0.5rem; }
+}
+.form-input, .form-textarea {
+    background: #f3f4f6;
+    width: 100%;
+    padding: 0.65rem;
+    border: 1px solid #fcd34d;
+    border-radius: 0.4rem;
+    outline: none;
+    font-size: 0.9rem;
+    font-family: inherit;
+}
+@media (min-width: 640px) {
+    .form-input, .form-textarea { padding: 0.75rem; border-radius: 0.5rem; font-size: 1rem; }
+}
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+@media (min-width: 640px) {
+    .form-textarea { min-height: 140px; }
+}
+.form-author {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+@media (min-width: 640px) {
+    .form-author { margin-bottom: 1.5rem; font-size: 0.95rem; }
+}
+.form-author-value {
+    color: #5b21b6;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+@media (min-width: 640px) {
+    .form-author-value { font-size: 0.95rem; }
+}
+.form-error {
+    margin-bottom: 0.75rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+@media (min-width: 640px) {
+    .form-error { margin-bottom: 1rem; }
+}
+.error-message {
+    font-size: 0.95rem;
+    color: #b91c1c;
+    text-align: center;
+    font-weight: 600;
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    border-radius: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    width: 100%;
+}
+@media (min-width: 640px) {
+    .error-message { font-size: 1.1rem; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+}
+.form-button {
+    background: linear-gradient(135deg, #3900f6 0%, #e300df 100%);
+    color: white;
+    font-weight: bold;
+    border-radius: 0.6rem;
+    padding: 0.6rem 0;
+    width: 100%;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px 0 rgba(251,191,36,0.15);
+    border: none;
+    transition: background 0.2s;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+@media (min-width: 640px) {
+    .form-button { border-radius: 0.75rem; padding: 0.75rem 0; font-size: 1.15rem; margin-top: 1.5rem; }
+}
+.form-button:hover {
+    background: linear-gradient(135deg, #e300df 0%, #3900f6 100%);
 }
 </style>
 <div class="publish-page">
-    <form method="POST" action="{{ url_for('publier') }}" style="width:100%;max-width:420px;background:rgba(255,255,255,0.98);padding:2.5rem;border-radius:1.25rem;box-shadow:0 8px 32px 0 rgba(31,38,135,0.1);border:2px solid #000;display:flex;flex-direction:column;align-items:center;">
-        <h1 style="font-weight:bold;font-size:2.25rem;margin-bottom:0.5rem;text-align:center;color:#5b21b6;letter-spacing:0.05em;width:100%;">Publier un article</h1>
-        <p style="text-align:center;color:#6b7280;margin-bottom:2rem;width:100%;">Remplissez les informations et publiez votre article.</p>
-        <div style="margin-bottom:1.5rem;width:100%;">
-            <label for="titre" style="display:block;font-size:0.95rem;color:#374151;font-weight:600;margin-bottom:0.5rem;">Titre de l'article</label>
-            <input name="titre" id="titre" placeholder="Titre de l'article" required style="background:#f3f4f6;width:100%;padding:0.75rem;border:1px solid #fcd34d;border-radius:0.5rem;outline:none;">
+    <form method="POST" action="{{ url_for('publier') }}" class="form-container flex flex-col items-center">
+        <h1 class="form-title">Publier un article</h1>
+        <p class="form-subtitle">Remplissez les informations et publiez votre article.</p>
+        <div class="form-group">
+            <label for="titre" class="form-label">Titre de l'article</label>
+            <input name="titre" id="titre" placeholder="Titre de l'article" required class="form-input">
         </div>
-        <div style="margin-bottom:1.5rem;width:100%;">
-            <label for="contenu" style="display:block;font-size:0.95rem;color:#374151;font-weight:600;margin-bottom:0.5rem;">Description de l'article</label>
-            <textarea name="contenu" id="contenu" placeholder="Décrivez votre article" required rows="5" style="background:#f3f4f6;width:100%;padding:0.75rem;border:1px solid #fcd34d;border-radius:0.5rem;outline:none;resize:vertical;"></textarea>
+        <div class="form-group">
+            <label for="contenu" class="form-label">Description de l'article</label>
+            <textarea name="contenu" id="contenu" placeholder="Décrivez votre article" required class="form-textarea"></textarea>
         </div>
-        <div style="margin-bottom:1.5rem;width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;">
-            <span style="color:#374151;font-size:0.95rem;font-weight:600;">Auteur :</span>
-            <span style="color:#5b21b6;font-size:0.95rem;font-weight:700;">{{ utilisateur }}</span>
+        <div class="form-author">
+            <span class="form-label mb-0" style="margin-bottom: 0;">Auteur :</span>
+            <span class="form-author-value">{{ utilisateur }}</span>
         </div>
         {% if erreur %}
-            <div style="margin-bottom:1rem;width:100%;display:flex;justify-content:center;">
-                <p style="font-size:1.1rem;color:#b91c1c;text-align:center;font-weight:600;background:#fee2e2;border:1px solid #fca5a5;border-radius:0.5rem;padding:0.5rem 1rem;width:100%;"><strong>Erreur :</strong> {{ erreur }}</p>
+            <div class="form-error">
+                <p class="error-message"><strong>Erreur :</strong> {{ erreur }}</p>
             </div>
         {% endif %}
-        <div style="display:flex;align-items:center;justify-content:center;margin-top:1.5rem;width:100%;">
-            <button type="submit" style="background:#fbbf24;color:white;font-weight:bold;border-radius:0.75rem;padding:0.75rem 0;width:100%;font-size:1.15rem;box-shadow:0 2px 8px 0 rgba(251,191,36,0.15);border:none;transition:background 0.2s;cursor:pointer;">Publier</button>
-        </div>
+        <button type="submit" class="form-button">Publier</button>
     </form>
 </div>
 {% endblock %}

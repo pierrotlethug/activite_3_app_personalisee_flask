@@ -2,46 +2,245 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script><title>Cortexium</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --app-bg:
+                radial-gradient(circle at top, rgba(227,0,223,0.08), transparent 18%),
+                radial-gradient(circle at right, rgba(57,0,246,0.10), transparent 22%),
+                linear-gradient(135deg, #0b1020 0%, #161a2c 42%, #111827 100%);
+            --surface-bg: rgba(15, 23, 42, 0.72);
+            --surface-card: rgba(17, 24, 39, 0.82);
+            --surface-2: rgba(255, 255, 255, 0.08);
+            --panel-border: rgba(255, 255, 255, 0.12);
+            --text-main: #eff6ff;
+            --text-soft: #dbe4f0;
+            --text-muted: #cbd5e1;
+            --input-bg: #111827;
+            --input-text: #f8fafc;
+            --header-footer-bg: linear-gradient(135deg, #020617 0%, #111827 35%, #1e3a8a 100%);
+            --header-footer-text: #eff6ff;
+            --header-footer-muted: #dbeafe;
+            --header-footer-border: rgba(147, 197, 253, 0.22);
+            --shadow: 0 18px 38px rgba(8, 12, 24, 0.35);
+        }
+
+        body[data-theme="light"] {
+            color-scheme: light;
+            --app-bg:
+                radial-gradient(circle at top, rgba(244, 114, 182, 0.18), transparent 18%),
+                radial-gradient(circle at right, rgba(124, 58, 237, 0.15), transparent 22%),
+                linear-gradient(135deg, #f8fbff 0%, #eef2ff 45%, #ffffff 100%);
+            --surface-bg: rgba(255, 255, 255, 0.86);
+            --surface-card: rgba(228, 236, 255, 0.94);
+            --surface-2: rgba(245, 247, 255, 0.96);
+            --panel-border: rgba(139, 92, 246, 0.18);
+            --text-main: #111827;
+            --text-soft: #374151;
+            --text-muted: #4b5563;
+            --input-bg: #ffffff;
+            --input-text: #111827;
+            --header-footer-bg: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 45%, #60a5fa 100%);
+            --header-footer-text: #172554;
+            --header-footer-muted: #334155;
+            --header-footer-border: rgba(30, 41, 59, 0.18);
+            --shadow: 0 18px 36px rgba(124, 58, 237, 0.10);
+        }
+
+        html { background: #eef3ff; }
+        body {
+            background: var(--app-bg);
+            color: var(--text-main);
+            transition: background 180ms ease, color 180ms ease;
+        }
+
+        img, svg {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+        }
+
+        input, textarea, select {
+            color: var(--input-text) !important;
+            background-color: var(--input-bg) !important;
+        }
+
+        body[data-theme="light"] .text-white,
+        body[data-theme="light"] .text-slate-200,
+        body[data-theme="light"] .text-slate-100,
+        body[data-theme="light"] .text-slate-300,
+        body[data-theme="light"] .text-pink-200,
+        body[data-theme="light"] .text-pink-300,
+        body[data-theme="light"] .text-violet-200,
+        body[data-theme="light"] .text-violet-700,
+        body[data-theme="light"] .text-gray-200,
+        body[data-theme="light"] .text-gray-300,
+        body[data-theme="light"] .text-white\/90,
+        body[data-theme="light"] .text-white\/80,
+        body[data-theme="light"] .text-white\/70,
+        body[data-theme="light"] .text-white\/60 {
+            color: #111827 !important;
+        }
+
+        body[data-theme="dark"] .text-slate-900,
+        body[data-theme="dark"] .text-violet-950,
+        body[data-theme="dark"] .text-slate-700,
+        body[data-theme="dark"] .text-slate-600,
+        body[data-theme="dark"] .text-gray-600,
+        body[data-theme="dark"] .text-gray-500,
+        body[data-theme="dark"] .text-gray-700 {
+            color: #f8fafc !important;
+        }
+
+        body[data-theme="light"] .text-slate-900,
+        body[data-theme="light"] .text-violet-950,
+        body[data-theme="light"] .text-slate-700,
+        body[data-theme="light"] .text-slate-600,
+        body[data-theme="light"] .text-gray-600,
+        body[data-theme="light"] .text-gray-500,
+        body[data-theme="light"] .text-gray-700,
+        body[data-theme="light"] .text-slate-800,
+        body[data-theme="light"] [class*="text-white"],
+        body[data-theme="light"] [class*="text-slate-200"],
+        body[data-theme="light"] [class*="text-slate-100"],
+        body[data-theme="light"] [class*="text-pink-200"],
+        body[data-theme="light"] [class*="text-violet-200"],
+        body[data-theme="light"] [class*="text-gray-300"] {
+            color: #111827 !important;
+        }
+
+        body[data-theme="light"] .bg-white\/8,
+        body[data-theme="light"] .bg-white\/10,
+        body[data-theme="light"] .bg-white\/25,
+        body[data-theme="light"] .bg-white\/35,
+        body[data-theme="light"] .bg-white\/40,
+        body[data-theme="light"] .bg-white\/45,
+        body[data-theme="light"] .bg-white\/90,
+        body[data-theme="light"] .bg-white {
+            background-color: var(--surface-card) !important;
+            color: #111827 !important;
+            border-color: rgba(139, 92, 246, 0.18) !important;
+            box-shadow: 0 18px 36px rgba(124, 58, 237, 0.10) !important;
+        }
+
+        body[data-theme="dark"] .bg-white\/8,
+        body[data-theme="dark"] .bg-white\/10,
+        body[data-theme="dark"] .bg-white\/25,
+        body[data-theme="dark"] .bg-white\/35,
+        body[data-theme="dark"] .bg-white\/40,
+        body[data-theme="dark"] .bg-white\/45,
+        body[data-theme="dark"] .bg-white\/90,
+        body[data-theme="dark"] .bg-white {
+            background-color: var(--surface-card) !important;
+            color: #eff6ff !important;
+            border-color: rgba(255, 255, 255, 0.12) !important;
+            box-shadow: 0 18px 38px rgba(8, 12, 24, 0.35) !important;
+        }
+
+        body[data-theme="light"] .border-white\/10,
+        body[data-theme="light"] .border-white\/20,
+        body[data-theme="light"] .border-white\/40,
+        body[data-theme="light"] .border-white\/70,
+        body[data-theme="light"] .border-slate-200,
+        body[data-theme="light"] .border-dashed {
+            border-color: rgba(139, 92, 246, 0.18) !important;
+        }
+
+        body[data-theme="light"] .text-pink-200,
+        body[data-theme="light"] .text-pink-300,
+        body[data-theme="light"] .text-slate-200,
+        body[data-theme="light"] .text-slate-100,
+        body[data-theme="light"] .text-violet-200,
+        body[data-theme="light"] .text-violet-700,
+        body[data-theme="light"] .text-indigo-200,
+        body[data-theme="light"] .text-amber-600 {
+            color: #111827 !important;
+        }
+
+        body[data-theme="light"] .text-slate-700,
+        body[data-theme="light"] .text-slate-600,
+        body[data-theme="light"] .text-gray-600,
+        body[data-theme="light"] .text-gray-500,
+        body[data-theme="light"] .text-gray-700 {
+            color: #374151 !important;
+        }
+
+        body[data-theme="light"] .bg-violet-50,
+        body[data-theme="light"] .bg-amber-50,
+        body[data-theme="light"] .bg-purple-50,
+        body[data-theme="light"] .bg-white {
+            background-color: var(--surface-card) !important;
+            color: #111827 !important;
+        }
+
+        body[data-theme="dark"] .bg-violet-50,
+        body[data-theme="dark"] .bg-amber-50,
+        body[data-theme="dark"] .bg-purple-50,
+        body[data-theme="dark"] .bg-white {
+            background-color: var(--surface-card) !important;
+            color: #eff6ff !important;
+        }
+
+        body[data-theme="light"] .border-purple-100,
+        body[data-theme="light"] .border-purple-200,
+        body[data-theme="dark"] .border-purple-100,
+        body[data-theme="dark"] .border-purple-200 {
+            border-color: var(--panel-border) !important;
+        }
+
+        body[data-theme="dark"] .text-amber-600 {
+            color: #fbbf24 !important;
+        }
+    </style>
 </head>
 
-<body class="min-h-screen flex flex-col bg-violet-100">
+<body class="min-h-screen flex flex-col bg-transparent text-slate-100">
 
     <!-- ========== HEADER ========== -->
-    <header class="bg-violet-900 p-6 shadow-md border-b-2 border-violet-950">
+    <header style="background: var(--header-footer-bg); color: var(--header-footer-text); border-color: var(--header-footer-border);" class="p-3 sm:p-6 shadow-[0_18px_40px_rgba(15,23,42,0.25)] border-b">
 
         <!-- Conteneur centré avec largeur max -->
-        <div class="max-w-7xl mx-auto relative flex items-center gap-4">
+        <div class="max-w-7xl mx-auto relative flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4">
 
-            <div class="flex items-center gap-8">
+            <div class="flex items-center gap-2 sm:gap-8">
                 {% if role == 'admin' %}
-                <a href="{{ url_for('admin_dashboard') }}" class="text-purple-700 hover:text-amber-600 transition-colors duration-200">
-                    Administration
+                <a href="{{ url_for('admin_dashboard') }}" class="transition-colors duration-200 text-xs sm:text-sm font-semibold" style="color: var(--header-footer-text);">
+                    Admin
                 </a>
                 {% endif %}
             </div>
 
-            <h1 class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl font-extrabold text-center text-gray-950">
-                cortexium <span class="text-gray-950">🧠</span>
+            <h1 class="text-xl sm:text-3xl lg:text-4xl font-extrabold text-center whitespace-nowrap drop-shadow-sm" style="color: var(--header-footer-text);">
+                cortexium <span style="color: var(--header-footer-text);">🧠</span>
             </h1>
 
-            <div class="ml-auto flex items-center gap-4">
-                <a href="{{ url_for('index') }}" class="text-purple-700 hover:text-amber-600 transition-colors duration-200">
+            <div class="flex flex-wrap items-center justify-center gap-1 sm:gap-4">
+                <button id="theme-toggle" type="button" aria-label="Basculer le thème" class="inline-flex items-center justify-center rounded-full border p-2 transition-colors duration-200" style="background: rgba(255,255,255,0.12); border-color: var(--header-footer-border); color: var(--header-footer-text);" title="Mode clair / sombre">
+                    <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4 sm:h-5 sm:w-5">
+                        <path d="M12 3v2.5M12 18.5V21M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M3 12h2.5M18.5 12H21M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77" stroke-linecap="round"/>
+                        <circle cx="12" cy="12" r="4.2"/>
+                    </svg>
+                </button>
+                <a href="{{ url_for('index') }}" class="transition-colors duration-200 text-xs sm:text-sm font-semibold" style="color: var(--header-footer-text);">
                     Accueil
                 </a>
                 {% if utilisateur %}
-                <a href="{{ url_for('publier') }}" class="text-purple-700 hover:text-amber-600 transition-colors duration-200">
+                <a href="{{ url_for('publier') }}" class="transition-colors duration-200 text-xs sm:text-sm font-semibold" style="color: var(--header-footer-text);">
                     Publier
                 </a>
                 <a href="{{ url_for('logout') }}"
-                    class="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors duration-200 shadow-sm">
-                    Se déconnecter
+                    class="px-2 sm:px-4 py-1 sm:py-2 rounded-full transition-colors duration-200 shadow-sm text-xs sm:text-sm font-semibold border" style="background: rgba(255,255,255,0.14); color: var(--header-footer-text); border-color: var(--header-footer-border);">
+                    Déconnexion
                 </a>
                 {% else %}
-                <a href="{{ url_for('login') }}" class="text-purple-700 hover:text-amber-600 transition-colors duration-200">
-                    Se connecter
+                <a href="{{ url_for('login') }}" class="transition-colors duration-200 text-xs sm:text-sm font-semibold" style="color: var(--header-footer-text);">
+                    Connexion
                 </a>
                 <a href="{{ url_for('register') }}"
-                    class="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors duration-200 shadow-sm">
+                    class="px-2 sm:px-4 py-1 sm:py-2 rounded-full transition-colors duration-200 shadow-sm text-xs sm:text-sm font-semibold border" style="background: rgba(255,255,255,0.14); color: var(--header-footer-text); border-color: var(--header-footer-border);">
                     S'inscrire
                 </a>
                 {% endif %}
@@ -50,7 +249,7 @@
     </header>
 
     <!-- Le Main zone centrale du site web -->
-    <main class="flex-grow py-10 px-4">
+    <main class="flex-grow py-4 sm:py-8 lg:py-10 px-2 sm:px-4">
         <!-- Conteneur centré pour le contenu -->
         <div class="max-w-7xl mx-auto">
             {% block content %}
@@ -62,18 +261,48 @@
     <!-- ========== FOOTER ========== -->
     <!-- mt-auto pousse le footer en bas de page -->
 
-    <footer class="mt-auto w-full bg-purple-200 py-4 px-6 border border-purple-400">
-        <div class="max-w-7xl mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-4 text-purple-900">
-            <p class="font-medium">© 2026 cortexium - Tous droits réservés</p>
-            <div class="flex flex-col md:flex-row items-center gap-4 text-sm">
+    <footer style="background: var(--header-footer-bg); color: var(--header-footer-text); border-color: var(--header-footer-border);" class="mt-auto w-full py-3 sm:py-4 px-2 sm:px-6 border-t shadow-[0_-8px_24px_rgba(15,23,42,0.20)]">
+        <div class="max-w-7xl mx-auto w-full flex flex-col gap-3 sm:gap-4 text-xs sm:text-sm" style="color: var(--header-footer-text);">
+            <p class="font-medium text-center sm:text-left">© 2026 cortexium - Tous droits réservés</p>
+            <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-2 text-xs">
                 <p>Copyright : cortexium ©</p>
-                <p>Contact : cortexium@gmail.com</p>
-                <p class="flex items-center gap-2">
-                    <span class="text-lg">📧</span>
-                    <a href="mailto:contact@cortexium.com" class="hover:text-amber-600 transition-colors">contact@cortexium.com</a>
+                <p class="flex items-center gap-1">
+                    <span class="text-sm">📧</span>
+                    <a href="mailto:contact@cortexium.com" class="transition-colors" style="color: var(--header-footer-text);">contact@cortexium.com</a>
                 </p>
             </div>
         </div>
     </footer>
 
+    <script>
+        (function () {
+            const root = document.documentElement;
+            const body = document.body;
+            const toggle = document.getElementById('theme-toggle');
+            const icon = document.getElementById('theme-icon');
+            const saved = localStorage.getItem('cortexium-theme');
+            const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+            const theme = saved || (prefersLight ? 'light' : 'dark');
+
+            function applyTheme(nextTheme) {
+                body.setAttribute('data-theme', nextTheme);
+                root.style.colorScheme = nextTheme;
+                if (icon) {
+                    icon.setAttribute('aria-label', nextTheme === 'dark' ? 'Mode clair' : 'Mode sombre');
+                }
+                localStorage.setItem('cortexium-theme', nextTheme);
+            }
+
+            applyTheme(theme);
+
+            if (toggle) {
+                toggle.addEventListener('click', function () {
+                    const nextTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                    applyTheme(nextTheme);
+                });
+            }
+        })();
+    </script>
+
 </body>
+</html>
